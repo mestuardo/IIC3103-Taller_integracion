@@ -16,7 +16,7 @@ import Link from '@material-ui/core/Link';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
-
+import DefaultErrorPage from 'next/error'
 
   function formatDate(date) {
     var d = new Date(date),

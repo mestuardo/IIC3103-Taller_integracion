@@ -16,6 +16,7 @@ import Head from 'next/head'
 import styles from '../../../styles/Home.module.css'
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import DefaultErrorPage from 'next/error'
 
 function caratulas(temporada){
   if (temporada==1){
@@ -83,6 +84,7 @@ export default function Temporadas( {temporada} ) {
   </main>
   </div>)
   }
+  
   if(!temporada) {
     return (<>
       <Head>

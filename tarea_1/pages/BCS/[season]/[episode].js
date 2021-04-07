@@ -15,7 +15,7 @@ import Link from '@material-ui/core/Link';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
-
+import DefaultErrorPage from 'next/error'
 
   function formatDate(date) {
     var d = new Date(date),
@@ -57,9 +57,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Post = ({episodio,error}) => {
-//   const router = useRouter()
-//   const { episode_id } = router.query
+const Post = ({episodio}) => {
+
 const classes = useStyles();
 
 const router = useRouter()
@@ -90,7 +89,7 @@ if(!episodio) {
 
   return (<div className={styles.container}>
 <Head>
-  <title>Episodio N° {episodio.episode} - Temporada {espisodio.season} - Better Call Saul</title>
+  <title>Episodio N° {episodio.episode} - Temporada {episodio.season} - Better Call Saul</title>
   <link rel="icon" href="/favicon.ico" />
 </Head>
 

@@ -15,7 +15,7 @@ import axios from 'axios';
 import Head from 'next/head'
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import DefaultErrorPage from 'next/error'
 
 
 
