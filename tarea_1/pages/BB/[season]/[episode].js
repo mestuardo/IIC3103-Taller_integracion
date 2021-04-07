@@ -189,8 +189,6 @@ export async function getStaticPaths() {
   const res = await fetch('https://tarea-1-breaking-bad.herokuapp.com/api/episodes?series=Breaking+Bad')
   const data = await res.json()
 
-  // var temp_1 = data.filter( element => element.season =="1")
-  // const data_json = JSON.parse(JSON.stringify(data))
 
   // Get the paths we want to pre-render based on posts
   const paths = data.map(episode => ({

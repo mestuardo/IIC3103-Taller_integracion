@@ -85,7 +85,7 @@ export default function Layout({children}) {
     
     return     <div className={styles.container}>
     <Head>
-      <title>Temporadas Better Call Saul</title>
+      <title>Tarea 1 Taller de Integración - Maximiliano Stuardo</title>
       <link rel="icon" href="/favicon.ico" />
     </Head>
 

@@ -45,11 +45,8 @@ function caratulas(temporada){
 
 
 
-const useStyles = makeStyles((theme) => ({
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: 'white',
-  },
+
+const useStyles = makeStyles({
   root: {
     maxWidth: '230px',
     margin: '10px',
@@ -72,13 +69,21 @@ const useStyles = makeStyles((theme) => ({
     },
 },
 
+});
+
+
+const backDropStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: 'white',
+  },
 }));
 
 // posts will be populated at build time by getStaticProps()
 export default function Temporadas( {temporada} ) {
 
   const classes = useStyles();
-  
+  const backdropclasses = backDropStyles()
   const router = useRouter()
 
   if (router.isFallback) {
@@ -90,7 +95,7 @@ export default function Temporadas( {temporada} ) {
       </Head>
   
       <main className={styles.main}>
-    <Backdrop className={classes.backdrop} open={true}>
+    <Backdrop className={backdropclasses.backdrop} open={true}>
     <CircularProgress color="primary" />
   </Backdrop>
   </main>
