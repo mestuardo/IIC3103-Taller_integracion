@@ -14,34 +14,46 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
+import DefaultErrorPage from 'next/error'
 
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
-    color: '#fff',
+    color: 'white',
   },
 }));
 
 
-const Post = ({personaje}) => {
+const Personaje = ({personaje,quotes}) => {
 
 const classes = useStyles();
 const router = useRouter();
 
 if (router.isFallback) {
-  try {
   return   ( 
     <div className={styles.container}>
-      <main className={styles.main}>
-  <Backdrop className={classes.backdrop}>
+    <Head>
+      <title>Cargando...</title>
+ 
+    </Head>
+
+    <main className={styles.main}>
+  <Backdrop className={classes.backdrop} open={true}>
   <CircularProgress color="primary" />
 </Backdrop>
 </main>
-</div>)
-}catch(error){
-  return <div>Error :D</div>
+</div>
+  )
+
 }
+if(!personaje) {
+  return (<>
+    <Head>
+      <meta name="robots" content="noindex"></meta>
+    </Head>
+    <DefaultErrorPage statusCode={404} />
+  </>)
 }
 
   return (<div className={styles.container}>
@@ -52,18 +64,29 @@ if (router.isFallback) {
 
 <main className={styles.main}>
 
-
-      {/* <Link href={`/BB`}>
+<div style={{display:'grid',gridTemplateColumns: personaje.appearance.length>0 && personaje.better_call_saul_appearance.length>0 ? '1fr 1fr': '1fr',margin:0,padding:0}}>
+     { personaje.appearance.length>0?
+      <Link href={`/BB`}>
       <p className={styles.description}>
    <img style={{height:'72px'}}
           src="https://upload.wikimedia.org/wikipedia/commons/7/77/Breaking_Bad_logo.svg"/>
            
       </p>
-      </Link> */}
-  <h3>{personaje.name}</h3>
+      </Link>: null}
+      { personaje.better_call_saul_appearance.length>0?
+      <Link href={`/BCS`}>
+      <p className={styles.description}>
+   <img style={{height:'72px'}}
+          src="https://www.dafont.com/forum/attach/orig/4/8/483649.png"/>
+           
+      </p>
+      </Link>
+    : null}
+      </div>
+  <h2>{personaje.name}</h2>
 
 
-  <div className={styles.gridDetalles}>
+  <div className={styles.gridDetallesPsj} >
   
 
   <Card className={styles.imgDetalles} >
@@ -77,7 +100,7 @@ if (router.isFallback) {
     <Card style={{width:'300px',margin:'10px'}}>
      
         <CardContent>
-          <Typography gutterBottom variant="body1" component="h6">
+          <Typography gutterBottom variant="h6" component="h6">
           "{personaje.nickname}"
           </Typography>
           <Typography variant="body1" component="h3">Status</Typography>
@@ -116,6 +139,26 @@ if (router.isFallback) {
 
     </Card>
 
+    <Card style={{width:'300px',height:'400px',textAlign:'-webkit-center'}} >
+      {/* <div style={{width:'300px',height:'400px',textAlign:'center'}}> */}
+      <CardContent style={{paddingBottom:0}}>
+          <Typography gutterBottom variant="h6" component="h6">
+          Citas
+          </Typography>
+          </CardContent>
+          <CardContent style={{overflowY:'scroll',maxHeight:'330px',maxwidth:'300px',marginTop:'0',paddingTop:'0'}}>
+          
+      
+          {quotes.length>0 ? quotes.map((cita) => (
+          <Typography style={{width:'fit-content'}} gutterBottom key={cita.quote_id} variant="body2" color="textSecondary" component="p">
+            "{cita.quote}"
+          </Typography>)):   
+          <Typography style={{width:'fit-content'}} gutterBottom variant="body2" color="textSecondary" component="p">Ninguna</Typography>
+          }
+          </CardContent>
+        {/* </div> */}
+    </Card>
+
 
 
   </div>
@@ -127,7 +170,7 @@ if (router.isFallback) {
 
   )}
 
-export default Post
+export default Personaje
 
 
 
@@ -151,7 +194,13 @@ export async function getStaticProps({ params }) {
    
     }
 
+    const res_quotes = await fetch('https://tarea-1-breaking-bad.herokuapp.com/api/quotes')
+    var data_quotes = await res_quotes.json()
+
+
     let pers = data.filter(x => x.name.toString() == params.name);  
+
+    let quot = data_quotes.filter(x => x.author.toString() == params.name);  
     
     
 
@@ -161,7 +210,8 @@ export async function getStaticProps({ params }) {
   
     return {
       props: {
-          personaje: pers[0]
+          personaje: pers.length==0 ? null : pers[0],
+          quotes: quot
       },
       revalidate: 3600, 
     };
@@ -184,18 +234,9 @@ export async function getStaticProps({ params }) {
 
   export async function getStaticPaths() {
     const res_00 = await fetch('https://tarea-1-breaking-bad.herokuapp.com/api/characters?offset=0')
-    // const res_01 = await fetch('https://tarea-1-breaking-bad.herokuapp.com/api/characters?offset=10')
-    // const res_02 = await fetch('https://tarea-1-breaking-bad.herokuapp.com/api/characters?offset=20')
-    // const res_03 = await fetch('https://tarea-1-breaking-bad.herokuapp.com/api/characters?offset=30')
-    
 
     var data = await res_00.json()
-    // const data_01 = await res_01.json()
-    // const data_02 = await res_02.json()
-    // const data_03 = await res_03.json()
 
-    // var data = data_00.concat(data_01,data_02,data_03)
-    
 
 
     var i

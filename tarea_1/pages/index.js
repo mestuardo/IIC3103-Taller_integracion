@@ -18,7 +18,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default function Home() {
 
-  return (
+  return (<div>
 
 
       <div className={styles.listaPortada}>
@@ -37,11 +37,7 @@ export default function Home() {
         <div className={styles.imgCardPortada} style={{backgroundImage:"url(https://gcdn.emol.cl/mitos-y-enigmas/files/2019/09/breaking-bad.jpg)",backgroundSize:'cover'}}>
         {'Temporadas'}
         </div>
-        <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Click para ver más detalles
-          </Typography>
-        </CardContent>
+
       </CardActionArea>
 
     </Card>
@@ -68,16 +64,22 @@ export default function Home() {
     </li>
 
 
-
-
+    </div>
 
     
-
-
-
-    </div>
   
+    <Link href={`/personajes`}>
+   <Card className={styles.tarjetaPortada} >
+      <CardActionArea className={styles.imgCardPortada}>
+        <div className={styles.imgCardPortada} style={{backgroundImage:"url(https://images2.minutemediacdn.com/image/upload/c_crop,h_1150,w_2044,x_156,y_0/f_auto,q_auto,w_1100/v1582478973/shape/mentalfloss/546287-james_minchinamc.jpg)",backgroundSize:'cover'}}>
+        {'Personajes'}
+        </div>
 
+      </CardActionArea>
+
+    </Card>
+    </Link>
+</div>
    
 
   )

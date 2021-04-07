@@ -14,8 +14,8 @@ import axios from 'axios';
 import Head from 'next/head'
 
 import styles from '../../../styles/Home.module.css'
-import ButtonBase from '@material-ui/core/ButtonBase';
-
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function caratulas(temporada){
   if (temporada==1){
@@ -35,7 +35,11 @@ function caratulas(temporada){
 
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: 'white',
+  },
   root: {
     maxWidth: '230px',
     margin: '10px',
@@ -57,16 +61,37 @@ const useStyles = makeStyles({
       opacity: '1',
     },
 },
-});
+
+}));
 
 // posts will be populated at build time by getStaticProps()
-export default function Temporadas( {temporada,error} ) {
+export default function Temporadas( {temporada} ) {
   const classes = useStyles();
   const router = useRouter()
 
   if (router.isFallback) {
-    return <div>Loading...</div>
+    return (    <div className={styles.container}>
+      <Head>
+        <title>Cargando...</title>
+   
+      </Head>
+  
+      <main className={styles.main}>
+    <Backdrop className={classes.backdrop} open={true}>
+    <CircularProgress color="primary" />
+  </Backdrop>
+  </main>
+  </div>)
   }
+  if(!temporada) {
+    return (<>
+      <Head>
+        <meta name="robots" content="noindex"></meta>
+      </Head>
+      <DefaultErrorPage statusCode={404} />
+    </>)
+  }
+
 
   
   return (
@@ -101,7 +126,7 @@ export default function Temporadas( {temporada,error} ) {
    <li key={temp.episode_id} >
     <Link href={`${encodeURIComponent(temp.season)}/${encodeURIComponent(temp.episode)}`}>
    <Card className={classes.root} >
-      <CardActionArea>
+      <CardActionArea className={classes.media}>
         <div className={styles.imgCard} style={{backgroundImage:"url("+caratulas(temp.season) +")",backgroundSize:'cover'}}>
         {temp.episode}
         </div>
@@ -110,7 +135,7 @@ export default function Temporadas( {temporada,error} ) {
           {temp.title}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Click para ver más detalles
+            Click para ver más detalles!
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -142,7 +167,7 @@ export async function getStaticProps({ params }) {
 
   return {
     props: {
-        temporada: temp
+        temporada: temp.length==0 ? null : temp
     },
     revalidate: 3600
   };

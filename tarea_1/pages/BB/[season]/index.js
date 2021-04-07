@@ -13,9 +13,11 @@ import Link from '@material-ui/core/Link';
 
 import axios from 'axios'; 
 import Head from 'next/head'
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
-import ButtonBase from '@material-ui/core/ButtonBase';
+
 
 
 function caratulas(temporada){
@@ -43,7 +45,11 @@ function caratulas(temporada){
 
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: 'white',
+  },
   root: {
     maxWidth: '230px',
     margin: '10px',
@@ -65,23 +71,49 @@ const useStyles = makeStyles({
       opacity: '1',
     },
 },
-});
+
+}));
 
 // posts will be populated at build time by getStaticProps()
-export default function Temporadas( {temporada,error} ) {
+export default function Temporadas( {temporada} ) {
 
   const classes = useStyles();
   
   const router = useRouter()
 
   if (router.isFallback) {
-    return <div>Loading...</div>
+    return ( 
+      <div className={styles.container}>
+      <Head>
+        <title>Cargando...</title>
+   
+      </Head>
+  
+      <main className={styles.main}>
+    <Backdrop className={classes.backdrop} open={true}>
+    <CircularProgress color="primary" />
+  </Backdrop>
+  </main>
+  </div> )
   }
+
+
+
+  if(!temporada) {
+    return (<>
+      <Head>
+        <meta name="robots" content="noindex"></meta>
+      </Head>
+      <DefaultErrorPage statusCode={404} />
+    </>)
+  }
+
+  
   return (
 
     <div className={styles.container}>
     <Head>
-      <title>{temporada[0].series} - Temporada {temporada[0].season}</title>
+      <title>Temporada {temporada[0].season} - {temporada[0].series}</title>
       <link rel="icon" href="/favicon.ico" />
     </Head>
 
@@ -107,7 +139,7 @@ export default function Temporadas( {temporada,error} ) {
    <li key={temp.episode_id} >
       <Link href={`${encodeURIComponent(temp.season)}/${encodeURIComponent(temp.episode)}`}>
    <Card className={classes.root} key={temp.episode_id} >
-      <CardActionArea>
+      <CardActionArea className={classes.media}>
         <div className={styles.imgCard} style={{backgroundImage:"url("+caratulas(temp.season) +")",backgroundSize:'cover'}}>
           {temp.episode}
         
@@ -151,7 +183,7 @@ export async function getStaticProps({ params }) {
 
   return {
     props: {
-        temporada: temp
+        temporada: temp.length==0 ? null : temp
     },
     revalidate: 3600
   };
