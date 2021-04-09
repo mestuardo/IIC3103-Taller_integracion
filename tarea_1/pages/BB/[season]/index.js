@@ -15,7 +15,7 @@ import axios from 'axios';
 import Head from 'next/head'
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import DefaultErrorPage from 'next/error'
+import Pag404 from '../../../components/404.js'
 
 
 
@@ -109,7 +109,7 @@ export default function Temporadas( {temporada} ) {
       <Head>
         <meta name="robots" content="noindex"></meta>
       </Head>
-      <DefaultErrorPage statusCode={404} />
+      <Pag404/>
     </>)
   }
 
@@ -143,7 +143,7 @@ export default function Temporadas( {temporada} ) {
               
    <li key={temp.episode_id} >
       <Link href={`${encodeURIComponent(temp.season)}/${encodeURIComponent(temp.episode)}`}>
-   <Card className={classes.root} key={temp.episode_id} >
+   <Card className={classes.root} >
       <CardActionArea className={classes.media}>
         <div className={styles.imgCard} style={{backgroundImage:"url("+caratulas(temp.season) +")",backgroundSize:'cover'}}>
           {temp.episode}

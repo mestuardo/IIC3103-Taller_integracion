@@ -11,6 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 import Link from '@material-ui/core/Link';
+import { unstable_renderSubtreeIntoContainer } from 'react-dom';
 
 const useStyles = makeStyles({
     option: {
@@ -29,43 +30,70 @@ export default function Layout({children}) {
     
 
   function handleClick(nombre) {
+    // Se bloquea el boton para evitar que el usuario 
+    // manipule el input cuando está cargando la página
+    
     location.href='/personajes/'+nombre
+    setDisabled(true)
+    
   
   }
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
-  const loading = open && options.length === 0;
+  const [busqueda,setBusqueda] = React.useState([])
+  const [disabled,setDisabled] = React.useState(false)
+  const [loading,setLoading] = React.useState(false)
+
+
+
+
+  React.useEffect(() =>{
+  // Si el usuario borra lo que ingresa, se cierra el tray y se borra el contenido
+    if (busqueda==''){
+      setOpen(false)
+  // Se dejó una restricción de al menos 2 caracteres para que se realizara la búsqueda
+  // Ya que la api arroja hasta 10 resultados máximo
+    }else if(busqueda.length>2){
+      // Se abre el tray
+      setOpen(true)
+      // Se deja la opción en el Autocomplete para que espere la carga de resultados
+      setLoading(true)
+    }
+
+  }
+  
+  ,[busqueda])
+
+  React.useEffect(() =>{
+    setOpen(false)    
+    }
+    
+    ,[disabled])
 
   React.useEffect(() => {
     let active = true;
 
-    if (!loading) {
-      return undefined;
+    if (!loading){
+      // Se cierra el tray cuando se elige al personaje
+      // Útil para cuando se clickeal el nombre y se redirige
+
+      return undefined
     }
 
     (async () => {
-      const response = await fetch('https://tarea-1-breaking-bad.herokuapp.com/api/characters?offset=0');
-      // await sleep(1e3); // For demo purposes.
-      var personajes = await response.json();
-  
-      var i
-  
-      for (i = 10; i < 100; i=i+10) {
-        var res = await fetch('https://tarea-1-breaking-bad.herokuapp.com/api/characters?offset='+i)
-        var data_1 = await res.json()
-        if (data_1.length==0) { break; 
-        }else{
-          personajes = personajes.concat(data_1);
-        }
-     
-      }
+       
+      const response = await fetch('https://tarea-1-breaking-bad.herokuapp.com/api/characters?name='+busqueda);
 
- 
-
+      var personajes = await response.json(); 
+      console.log(personajes)
       if (active) {
         setOptions(personajes);
-      }
+        setLoading(false);
+     
+        }
+        
+     
     })();
 
     return () => {
@@ -76,7 +104,9 @@ export default function Layout({children}) {
   React.useEffect(() => {
     if (!open) {
       setOptions([]);
+      setLoading(false)
     }
+    
   }, [open]);
 
 
@@ -100,22 +130,29 @@ export default function Layout({children}) {
   <Autocomplete
       id="personajes"
       style={{ width: 300 }}
+      disabled={disabled}
       open={open}
-      onOpen={() => {
-        setOpen(true);
-      }}
+      noOptionsText={'El personaje no existe'}
+      loadingText={'Buscando personaje...'}
+      closeText={'Cerrar'}
+      // onOpen={() => {
+      //   setOpen(true);
+      // }}
       onClose={() => {
         setOpen(false);
       }}
       getOptionSelected={(option, value) => option.name === value.name}
       getOptionLabel={(option) => option.name}
-      onChange={(e,op) => handleClick(op.name)}
+      inputValue={busqueda}
+      onInputChange={(e,value)=>setBusqueda(value)}
+      onChange={(e,op) => {handleClick(op.name)}}
       options={options}
       loading={loading}
       renderInput={(params) => (
         <TextField
           {...params}
           label="Buscar personaje"
+          placeholder='Escribe un nombre...'
           InputProps={{
             ...params.InputProps,
             endAdornment: (

@@ -16,7 +16,7 @@ import Link from '@material-ui/core/Link';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
-import DefaultErrorPage from 'next/error'
+import Pag404 from '../../../components/404.js'
 
   function formatDate(date) {
     var d = new Date(date),
@@ -90,7 +90,7 @@ if(!episodio) {
     <Head>
       <meta name="robots" content="noindex"></meta>
     </Head>
-    <DefaultErrorPage statusCode={404} />
+    <Pag404/>
   </>)
 }
 

@@ -16,7 +16,7 @@ import Head from 'next/head'
 import styles from '../../../styles/Home.module.css'
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import DefaultErrorPage from 'next/error'
+import Pag404 from '../../../components/404.js'
 
 function caratulas(temporada){
   if (temporada==1){
@@ -95,7 +95,7 @@ export default function Temporadas( {temporada} ) {
       <Head>
         <meta name="robots" content="noindex"></meta>
       </Head>
-      <DefaultErrorPage statusCode={404} />
+      <Pag404/>
     </>)
   }
 

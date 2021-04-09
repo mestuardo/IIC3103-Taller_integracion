@@ -76,7 +76,7 @@ export default function Temporadas( {cant_temporadas,error} ) {
     <div className={styles.container}>
     <Head>
       <title>Temporadas Breaking Bad</title>
-      <link rel="icon" href="/favicon.ico" />
+
     </Head>
 
     <main className={styles.main}>

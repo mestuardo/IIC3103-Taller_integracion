@@ -14,8 +14,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
-import DefaultErrorPage from 'next/error'
 
+import Pag404 from '../../components/404.js'
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -52,7 +52,7 @@ if(!personaje) {
     <Head>
       <meta name="robots" content="noindex"></meta>
     </Head>
-    <DefaultErrorPage statusCode={404} />
+    <Pag404/>
   </>)
 }
 
@@ -177,37 +177,16 @@ export default Personaje
 
 
 export async function getStaticProps({ params }) {
-    const res_00 = await fetch('https://tarea-1-breaking-bad.herokuapp.com/api/characters?offset=0')
+    const res_00 = await fetch('https://tarea-1-breaking-bad.herokuapp.com/api/characters?name='+params.name)
    
 
-    var data = await res_00.json()
-
-    var i
-
-    for (i = 10; i < 100; i=i+10) {
-      var res = await fetch('https://tarea-1-breaking-bad.herokuapp.com/api/characters?offset='+i)
-      var data_1 = await res.json()
-      if (data_1.length==0) { break; 
-      }else{
-        data = data.concat(data_1);
-      }
-   
-    }
-
-    const res_quotes = await fetch('https://tarea-1-breaking-bad.herokuapp.com/api/quotes')
-    var data_quotes = await res_quotes.json()
+    var pers = await res_00.json()
 
 
-    let pers = data.filter(x => x.name.toString() == params.name);  
+    const res_quotes = await fetch('https://tarea-1-breaking-bad.herokuapp.com/api/quote?author='+params.name)
+    var quot = await res_quotes.json()
 
-    let quot = data_quotes.filter(x => x.author.toString() == params.name);  
-    
-    
 
-  
-
-    // let psj = data.filter(x => x.name.toString() == params.name);    
-  
     return {
       props: {
           personaje: pers.length==0 ? null : pers[0],
@@ -218,19 +197,6 @@ export async function getStaticProps({ params }) {
   }
 
 
-  function formatDate(date) {
-    var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
-
-    return [day, month, year].join('/');
-}
 
   export async function getStaticPaths() {
     const res_00 = await fetch('https://tarea-1-breaking-bad.herokuapp.com/api/characters?offset=0')

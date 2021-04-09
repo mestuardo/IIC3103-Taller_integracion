@@ -16,7 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 
 
-export default function Home() {
+export default function Portada() {
 
   return (<div>
 
@@ -85,28 +85,3 @@ export default function Home() {
   )
 }
 
-// export async function getServerSideProps() {
-//   const res_00 = await fetch('https://tarea-1-breaking-bad.herokuapp.com/api/characters?offset=0')
-   
-
-//   var data = await res_00.json()
-
-//   var i
-
-//   for (i = 10; i < 100; i=i+10) {
-//     var res = await fetch('https://tarea-1-breaking-bad.herokuapp.com/api/characters?offset='+i)
-//     var data_1 = await res.json()
-//     if (data_1.length==0) { break; 
-//     }else{
-//       data = data.concat(data_1);
-//     }
- 
-//   }
-  
-  
-//   return {
-//     props: {
-//         personajes: data
-//     }
-//   };
-// }
