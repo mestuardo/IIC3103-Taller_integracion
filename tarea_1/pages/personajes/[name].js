@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import styles from '../../styles/Home.module.css'
 import Head from 'next/head'
 import fetch from 'node-fetch'
-import Backdrop from '@material-ui/core/Backdrop';
+
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Card from '@material-ui/core/Card';
@@ -10,24 +10,18 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
+
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
 
-import Pag404 from '../../components/404.js'
 
-const useStyles = makeStyles((theme) => ({
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: 'white',
-  },
-}));
+
+
 
 
 const Personaje = ({personaje,quotes}) => {
 
-const classes = useStyles();
+
 const router = useRouter();
 
 if (router.isFallback) {
@@ -39,22 +33,15 @@ if (router.isFallback) {
     </Head>
 
     <main className={styles.main}>
-  <Backdrop className={classes.backdrop} open={true}>
+
   <CircularProgress color="primary" />
-</Backdrop>
+
 </main>
 </div>
   )
 
 }
-if(!personaje) {
-  return (<>
-    <Head>
-      <meta name="robots" content="noindex"></meta>
-    </Head>
-    <Pag404/>
-  </>)
-}
+
 
   return (<div className={styles.container}>
 <Head>
@@ -187,12 +174,19 @@ export async function getStaticProps({ params }) {
     var quot = await res_quotes.json()
 
 
+    if (pers.length==0){
+      return {
+        notFound: true
+      }
+    }
+
+
     return {
       props: {
-          personaje: pers.length==0 ? null : pers[0],
+          personaje: pers[0],
           quotes: quot
       },
-      revalidate: 3600, 
+      revalidate: 3600,
     };
   }
 

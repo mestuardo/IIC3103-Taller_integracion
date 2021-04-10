@@ -1,34 +1,57 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Esta es la Tarea N°1 de la asignatura IIC3103 - Taller de integración
 
-## Getting Started
+## Framework
 
-First, run the development server:
+Se utilizó Next.js,  un framework relativamente nuevo, que utiliza React como base
+y además provee un servidor que permite hacer Server Side Rendering (SSR). Las principales librerías utilizadas fueron
 
 ```bash
-npm run dev
-# or
-yarn dev
+React       -> Frontend
+Material-UI -> Para los botones, tarjetas y buscadores estilosos
+Node-fetch  -> Para recuperar datos de la API
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## Consideraciones
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Dentro del script seguramente te encontrarás con las siguientes funciones
 
-## Learn More
+```bash
+getStaticProps -> Utilizado para que el servidor haga fetch de la api en el momento del Build, es decir
+                    que al momento de subir la página todo el contenido queda como contenido estático
+                ¿Pero qué pasa si la API se actualiza?
+                    R: Para eso esta función tiene una opción que se llama "revalidate", en que uno puede 
+                        colocar los segundos en que el servidor hace fetch de nuevo de los datos y revisa  
+                        si es que hay información nueva. En este caso el fallback está puesto para 3600 
+                        segundos.
 
-To learn more about Next.js, take a look at the following resources:
+                ¿Qué pasa si no existe la información pedida?
+                    R: Se retorna una página 404 personalizada
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+getStaticPaths-> Aquí se le dice a la aplicación que haga fetch con cierto contenido y se generen los URL
+                    estático de la aplicación cuando se hace el deploy.
+                ¿Pero qué pasa si la API se actualiza?
+                        R: Para eso esta función tiene una opción que se llama "fallback: true", en que uno
+                        deja al servidor que se generen URL nuevas y verifique con getStaticProps si es que 
+                        hay información nueva.
+```
+  
+Para el buscador de personajes se colocó un buscador para todas las páginas que hace un request cada vez 
+que se ingresa un string de más de 2 caracteres :-)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Host
 
-## Deploy on Vercel
+```bash
+Se utilizó Vercel porque es gratuito y permite SSR, por lo que se puede regenerar el sitio en el caso 
+de que haya información nueva en la API.
+- Como ya lo mencioné antes, el chequeo de datos nuevos se realiza cada 1 hora
+- La generación de URLs nuevos en caso de existir se realiza en el momento que el cliente intenta ingresar el URL
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Tengo claro que de repente hay problemas con los estilos de las tarjetas, pero es algo que tengo que estudiar
+con más tiempo para poder saber solucionarlo
+-> Tengo entendido que los estilos con SSR se des-inyectan y se re-inyectan para que funcionen bien
+    pero aún no sé bien coómo s ehace

@@ -3,20 +3,19 @@ import { useRouter } from 'next/router'
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
+
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
+
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 
-import axios from 'axios'; 
+
 import Head from 'next/head'
 
 import styles from '../../../styles/Home.module.css'
-import Backdrop from '@material-ui/core/Backdrop';
+
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Pag404 from '../../../components/404.js'
+
 
 function caratulas(temporada){
   if (temporada==1){
@@ -62,18 +61,12 @@ const useStyles = makeStyles({
 });
 
 
-const backDropStyles = makeStyles((theme) => ({
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: 'white',
-  },
-}));
 
 // posts will be populated at build time by getStaticProps()
 export default function Temporadas( {temporada} ) {
   const classes = useStyles();
   const router = useRouter()
-  const backdropclasses = backDropStyles()
+
 
   if (router.isFallback) {
     return (         <div className={styles.container}>
@@ -83,21 +76,21 @@ export default function Temporadas( {temporada} ) {
       </Head>
   
       <main className={styles.main}>
-    <Backdrop className={backdropclasses.backdrop} open={true}>
+
     <CircularProgress color="primary" />
-  </Backdrop>
+
   </main>
   </div>)
   }
   
-  if(!temporada) {
-    return (<>
-      <Head>
-        <meta name="robots" content="noindex"></meta>
-      </Head>
-      <Pag404/>
-    </>)
-  }
+  // if(!temporada) {
+  //   return (<>
+  //     <Head>
+  //       <meta name="robots" content="noindex"></meta>
+  //     </Head>
+  //     <Pag404/>
+  //   </>)
+  // }
 
 
   
@@ -172,9 +165,14 @@ export async function getStaticProps({ params }) {
   const data = await res.json()
   let temp = data.filter(x => x.season.toString() == params.season);    
 
+  if (temp.length==0){
+    return {
+      notFound: true
+    }
+  }
   return {
     props: {
-        temporada: temp.length==0 ? null : temp
+        temporada: temp
     },
     revalidate: 3600
   };
