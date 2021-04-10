@@ -1,5 +1,8 @@
 Esta es la Tarea N°1 de la asignatura IIC3103 - Taller de integración
 
+La URL de la API extraída es la siguiente:
+    https://tarea-1-breaking-bad.herokuapp.com/
+
 ## Framework
 
 Se utilizó Next.js,  un framework relativamente nuevo, que utiliza React como base
@@ -54,4 +57,4 @@ de que haya información nueva en la API.
 Tengo claro que de repente hay problemas con los estilos de las tarjetas, pero es algo que tengo que estudiar
 con más tiempo para poder saber solucionarlo
 -> Tengo entendido que los estilos con SSR se des-inyectan y se re-inyectan para que funcionen bien
-    pero aún no sé bien coómo s ehace
+    pero aún no sé bien cómo se hace
