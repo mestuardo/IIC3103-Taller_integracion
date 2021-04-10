@@ -45,6 +45,8 @@ function caratulas(temporada){
   }
   else if (temporada==4) {
     return "https://upload.wikimedia.org/wikipedia/en/c/cc/Better_Call_Saul_Season_4.jpg"
+  }else{
+    return "https://i0.wp.com/hipertextual.com/wp-content/uploads/2017/07/rick-morty-.jpg?w=1920&ssl=1"
   }
 }
 
@@ -167,7 +169,7 @@ export async function getStaticProps({ params }) {
 
   return {
     props: {
-        episodio: episodios.length==0 ? null : episodios[0]
+        episodio: episodios[0]
     },
     revalidate: 3600
   };

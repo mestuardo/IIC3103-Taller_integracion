@@ -29,6 +29,8 @@ getStaticProps -> Utilizado para que el servidor haga fetch de la api en el mome
                         colocar los segundos en que el servidor hace fetch de nuevo de los datos y revisa  
                         si es que hay información nueva. En este caso el fallback está puesto para 3600 
                         segundos.
+                        Si específicamente se busca el URL pedido, la app irá a la API, lo buscará y 
+                        mostará el contenido en cualquier momento.
 
                 ¿Qué pasa si no existe la información pedida?
                     R: Se retorna una página 404 personalizada

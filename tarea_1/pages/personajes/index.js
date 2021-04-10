@@ -143,6 +143,7 @@ export const getStaticProps = async () => {
     return {
       props: {
         personajes: data,
-    }
+    },
+    revalidate: 3600,
     };
   }

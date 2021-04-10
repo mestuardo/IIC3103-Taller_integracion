@@ -51,7 +51,7 @@ function caratulas(temporada){
     return "https://www.coverwhiz.com/uploads/tv/Breaking-Bad-Season-5.jpg"
   }
   else{
-    return ''
+    return 'https://i0.wp.com/hipertextual.com/wp-content/uploads/2017/07/rick-morty-.jpg?w=1920&ssl=1'
   }
 }
 

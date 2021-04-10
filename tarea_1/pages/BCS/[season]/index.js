@@ -29,6 +29,8 @@ function caratulas(temporada){
   }
   else if (temporada==4) {
     return "https://upload.wikimedia.org/wikipedia/en/c/cc/Better_Call_Saul_Season_4.jpg"
+  }else{
+    return "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/rick-and-morty-season-4-trailer-1-1570450125.jpg?crop=0.564xw:1.00xh;0,0&resize=768:*"
   }
 }
 
@@ -83,15 +85,6 @@ export default function Temporadas( {temporada} ) {
   </div>)
   }
   
-  // if(!temporada) {
-  //   return (<>
-  //     <Head>
-  //       <meta name="robots" content="noindex"></meta>
-  //     </Head>
-  //     <Pag404/>
-  //   </>)
-  // }
-
 
   
   return (
@@ -135,7 +128,7 @@ export default function Temporadas( {temporada} ) {
           {temp.title}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Click para ver más detalles!
+            Click para ver más detalles
           </Typography>
         </CardContent>
       </CardActionArea>

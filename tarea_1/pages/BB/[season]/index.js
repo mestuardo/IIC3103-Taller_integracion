@@ -36,7 +36,7 @@ function caratulas(temporada){
     return "https://www.coverwhiz.com/uploads/tv/Breaking-Bad-Season-5.jpg"
   }
   else{
-    return ''
+    return 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/rick-and-morty-season-4-trailer-1-1570450125.jpg?crop=0.564xw:1.00xh;0,0&resize=768:*'
   }
 }
 
