@@ -33,7 +33,7 @@ function caratulas(temporada){
     return "https://www.coverwhiz.com/uploads/tv/Breaking-Bad-Season-5.jpg"
   }
   else{
-    return ''
+    return 'http://www.redbionova.com/wp-content/uploads/2018/11/rickmorty-770x547-c-default.jpg'
   }
 }
 

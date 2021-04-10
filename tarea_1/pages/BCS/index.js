@@ -25,6 +25,8 @@ function caratulas(temporada){
   }
   else if (temporada==4) {
     return "https://upload.wikimedia.org/wikipedia/en/c/cc/Better_Call_Saul_Season_4.jpg"
+  }else{
+    return 'http://www.redbionova.com/wp-content/uploads/2018/11/rickmorty-770x547-c-default.jpg'
   }
 }
 
