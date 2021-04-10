@@ -42,7 +42,12 @@ getStaticPaths-> Aquí se le dice a la aplicación que haga fetch con cierto con
                         deja al servidor que se generen URL nuevas y verifique con getStaticProps si es que 
                         hay información nueva.
 ```
-  
+¿Para qué sirve esto?
+1. Para tener contenido pre-cargado y no derivar el fetch al cliente
+    para este caso es un overhead total, pero quería aprender a utilizarlo
+2. Para el SEO. Como las páginas están pre-cargadas y no hacen render solo cuando el cliente ingresa,
+    los crawlers de google detectan el contenido
+
 Para el buscador de personajes se colocó un buscador para todas las páginas que hace un request cada vez 
 que se ingresa un string de más de 2 caracteres :-)
 
