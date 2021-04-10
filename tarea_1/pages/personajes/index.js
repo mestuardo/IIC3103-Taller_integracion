@@ -59,14 +59,25 @@ export default function Personajes( {personajes,error} ) {
 
     <main className={styles.main}>
 
+    <div style={{display:'grid',gridTemplateColumns: '1fr 1fr'}}>
 
       <Link href={`/BB`}>
       <p className={styles.description}>
-   <img style={{height:'72px'}}
+      <img style={{height:'72px'}}
           src="https://upload.wikimedia.org/wikipedia/commons/7/77/Breaking_Bad_logo.svg"/>
-           
-      </p>
+          </p>
+          
+
       </Link>
+
+      <Link href={`/BCS`}>
+      <p className={styles.description}>
+      <img style={{height:'72px'}}
+          src="https://www.dafont.com/forum/attach/orig/4/8/483649.png"/>
+          </p>
+      </Link>
+
+</div>
 
       <h3>Personajes Series</h3>
   
