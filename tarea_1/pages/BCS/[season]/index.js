@@ -29,7 +29,11 @@ function caratulas(temporada){
   }
   else if (temporada==4) {
     return "https://upload.wikimedia.org/wikipedia/en/c/cc/Better_Call_Saul_Season_4.jpg"
-  }else{
+  }
+  else if (temporada==5){
+    return "https://upload.wikimedia.org/wikipedia/en/0/06/Better_Call_Saul_Season_5.jpg"
+  }
+  else{
     return "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/rick-and-morty-season-4-trailer-1-1570450125.jpg?crop=0.564xw:1.00xh;0,0&resize=768:*"
   }
 }

@@ -51,7 +51,8 @@ getStaticPaths-> Aquí se le dice a la aplicación que haga fetch con cierto con
 
 Contras:
 1. Como la API tiene un request limit, puse un tiempo de revisión de 3600 segundos, lo que significa que 
-si existe información nueva, el servidor se va a tomar su tiempo en actualizarla. 
+si existe información nueva mientras el cliente está en la página, el servidor se va a tomar su tiempo en actualizarla. En todo caso he visto que actualizando la página se muestra la info nueva, así que si la API
+se actualiza basca con un F5 :-)
 
 Para el buscador de personajes se colocó un buscador para todas las páginas que hace un request cada vez 
 que se ingresa un string de más de 2 caracteres :-)
