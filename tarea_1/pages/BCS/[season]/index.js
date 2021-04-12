@@ -91,7 +91,7 @@ export default function Temporadas( {temporada} ) {
 
     <div className={styles.container}>
     <Head>
-      <title>{temporada[0].series} - Temporada {temporada[0].season}</title>
+      <title>Temporada {temporada[0].season} - {temporada[0].series}</title>
       <link rel="icon" href="/favicon.ico" />
     </Head>
 

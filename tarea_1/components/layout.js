@@ -41,7 +41,7 @@ export default function Layout({children}) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
-  const [busqueda,setBusqueda] = React.useState([])
+  const [busqueda,setBusqueda] = React.useState('')
   const [disabled,setDisabled] = React.useState(false)
   const [loading,setLoading] = React.useState(false)
 

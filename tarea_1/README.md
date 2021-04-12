@@ -47,6 +47,11 @@ getStaticPaths-> Aquí se le dice a la aplicación que haga fetch con cierto con
     para este caso es un overhead total, pero quería aprender a utilizarlo
 2. Para el SEO. Como las páginas están pre-cargadas y no hacen render solo cuando el cliente ingresa,
     los crawlers de google detectan el contenido
+3. Si se cae la API, la información sigue en la página
+
+Contras:
+1. Como la API tiene un request limit, puse un tiempo de revisión de 3600 segundos, lo que significa que 
+si existe información nueva, el servidor se va a tomar su tiempo en actualizarla. 
 
 Para el buscador de personajes se colocó un buscador para todas las páginas que hace un request cada vez 
 que se ingresa un string de más de 2 caracteres :-)

@@ -109,19 +109,20 @@ if (router.isFallback) {
           <Typography  variant="body1" component="h2">
             Temporadas aparición BB
           </Typography>
-          {personaje.appearance.map((temporada) => (
+  
+          {personaje.appearance.length>0 ? personaje.appearance.map((temporada) => (
           <Typography key={temporada} variant="body2" color="textSecondary" component="p">
            <Link href={"/BB/"+temporada} >Temporada {temporada} </Link>
-          </Typography>
-          ))}
+          </Typography> 
+          )):<Typography variant="body2" color="textSecondary" component="p">Ninguna.</Typography> }
                     <Typography  variant="body1" component="h2">
             Temporadas aparición BCS
           </Typography>
-          {personaje.better_call_saul_appearance.map((temporada) => (
+          {personaje.better_call_saul_appearance.length>0 ? personaje.better_call_saul_appearance.map((temporada) => (
           <Typography key={temporada} variant="body2" color="textSecondary" component="p">
            <Link href={"/BCS/"+temporada} >Temporada {temporada} </Link>
           </Typography>
-          ))}
+          )): <Typography variant="body2" color="textSecondary" component="p">Ninguna.</Typography>}
         </CardContent>
 
     </Card>
@@ -140,7 +141,7 @@ if (router.isFallback) {
           <Typography style={{width:'fit-content'}} gutterBottom key={cita.quote_id} variant="body2" color="textSecondary" component="p">
             "{cita.quote}"
           </Typography>)):   
-          <Typography style={{width:'fit-content'}} gutterBottom variant="body2" color="textSecondary" component="p">Ninguna</Typography>
+          <Typography style={{width:'fit-content'}} gutterBottom variant="body2" color="textSecondary" component="p">Ninguna.</Typography>
           }
           </CardContent>
         {/* </div> */}
