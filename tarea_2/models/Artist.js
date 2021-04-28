@@ -11,11 +11,6 @@ const TrackSchema = new mongoose.Schema({
 
     // maxlength: [20, '_id cannot be more than 60 characters'],
   },
-  album_id: {
-    type: String,
-    required: [true],
-    // maxlength: [20, 'username cannot be more than 60 characters'],
-  },
   name: {
     type: String,
     required: [true],
