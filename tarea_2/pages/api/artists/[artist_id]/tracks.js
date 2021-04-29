@@ -1,9 +1,10 @@
-import dbConnect from '../../../../../util/mongoose'
-import Album from '../../../../../models/Album'
-import Artist from '../../../../../models/Artist'
+import dbConnect from '../../../../util/mongoose'
+import Album from '../../../../models/Album'
+import Track from '../../../../models/Track'
+import Artist from '../../../../models/Artist'
 
 import Cors from 'cors'
-import initMiddleware from '../../../../../util/init-middleware'
+import initMiddleware from '../../../../util/init-middleware'
 
 
 const cors = initMiddleware(
@@ -13,6 +14,7 @@ const cors = initMiddleware(
     methods: ['GET', 'POST','PUT','DELETE'],
   })
 )
+
 
 export default async function userHandler(req, res) {
   await cors(req, res)
@@ -25,26 +27,24 @@ export default async function userHandler(req, res) {
 
   switch (method) {
     case 'GET':
+    const artist = Artist.findOne({id:artist_id},{_id:0})
     try {
-      const artist = await Artist.findOne({id:artist_id},{_id:0})
-      if (!artist){
-        return res.status(404).json('artista no encontrado')
-      }
+    
+        if (!artist){
+            return res.status(404).json('artista no encontrado')
+        }
+    var album_ids = [];
       const albums = await Album.find({artist_id: artist_id},{_id:0})
       // Get data from your database
-      res.status(200).json(albums)
+      albums.forEach(album => album_ids.push(album.id) )
+      const tracks = await Track.find({album_id:{$in:album_ids }},{_id:0})
+      return res.status(200).json(tracks)
     } catch (error) {
         res.status(400).json(error)
       }
       break
     case 'POST':
-      const artist = await Artist.findOne({id:artist_id},{_id:0})
-      if (!artist){
-        return res.status(422).json('artista no existe')      }
-
-      if (req.body.name==undefined){
-        return res.status(400).json('input inválido')
-      }
+      // Update or create data in your database
       const buff  = Buffer.from(req.body.name, 'utf-8')
       const IDbase64 = buff.toString('base64').substring(0,22);
       try {
@@ -62,13 +62,8 @@ export default async function userHandler(req, res) {
         ) /* create a new model in the database */
         res.status(201).json(album.slice(1,artist.length-1))
       } catch (error) {
-        if (error.name === 'MongoError' && error.code === 11000){
-          const album = await Album.find({artist_id: artist_id},{_id:0})
-          return res.status(409).json(album)
-
-        }
-        res.status(400).json('input inválido')
-        
+        const album = await Album.find({artist_id: artist_id},{_id:0})
+        res.status(400).json(album)
       }
       break
 

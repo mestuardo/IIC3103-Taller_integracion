@@ -1,8 +1,22 @@
 import dbConnect from '../../../../util/mongoose'
 import Track from '../../../../models/Track'
 
+import Cors from 'cors'
+import initMiddleware from '../../../../util/init-middleware'
+
+
+const cors = initMiddleware(
+  // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
+  Cors({
+    // Only allow requests with GET, POST and OPTIONS
+    methods: ['GET', 'POST','PUT','DELETE'],
+  })
+)
+
+
 
 export default async function userHandler(req, res) {
+  await cors(req, res)
   const {
     query: {track_id},
     method,
@@ -17,7 +31,7 @@ export default async function userHandler(req, res) {
       // Get data from your database
       
       if (!track){
-        return res.status(400).json([])
+        return res.status(404).json('Canción no encontrada')
       }
       res.status(200).json(track)
     } catch(err){
@@ -26,16 +40,20 @@ export default async function userHandler(req, res) {
       break
     case 'DELETE':
       // Update or create data in your database
-      try {
-        await Track.deleteOne({id:track_id})
-        res.status(204).json('canción eliminada')
-      }catch(err){
-        rest.status(404).json('canción inexistente')
+      const track = await Track.findOne({id:track_id},{_id:0})
+
+      if (!track){
+        return res.status(404).json('canción inexistente')
+
       }
+      await Track.deleteOne({id:track_id})
+      return res.status(204).json('canción eliminada')
       
+
       break
     default:
-      res.setHeader('Allow', ['GET', 'POST'])
+      res.setHeader('Allow', ['GET', 'DELETE'])
       res.status(405).end(`Method ${method} Not Allowed`)
+      break
   }
 }
