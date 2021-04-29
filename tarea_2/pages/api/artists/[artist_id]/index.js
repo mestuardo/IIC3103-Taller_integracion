@@ -28,7 +28,7 @@ export default async function userHandler(req, res) {
   switch (method) {
     case 'GET':
       try{ 
-      const artist = await Artist.findOne({id: artist_id},{_id:0})
+      const artist = await Artist.findOne({id: artist_id},{_id:0,id:0})
       // Get data from your database
       
       if (!artist){

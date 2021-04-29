@@ -37,7 +37,7 @@ export default async function userHandler(req, res) {
       const albums = await Album.find({artist_id: artist_id},{_id:0})
       // Get data from your database
       albums.forEach(album => album_ids.push(album.id) )
-      const tracks = await Track.find({album_id:{$in:album_ids }},{_id:0})
+      const tracks = await Track.find({album_id:{$in:album_ids }},{_id:0,id:0,album_id:0})
       return res.status(200).json(tracks)
     } catch (error) {
         res.status(400).json(error)

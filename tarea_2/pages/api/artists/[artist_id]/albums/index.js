@@ -48,7 +48,7 @@ export default async function userHandler(req, res) {
       if (req.body.genre==undefined){
         return res.status(400).json('input inválido')
       }
-      const buff  = Buffer.from(req.body.name, 'utf-8')
+      const buff  = Buffer.from(req.body.name+':'+artist_id, 'utf-8')
       const IDbase64 = buff.toString('base64').substring(0,22);
       try {
          await Album.create(
