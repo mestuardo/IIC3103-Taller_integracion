@@ -27,9 +27,9 @@ export default async function userHandler(req, res) {
 
   switch (method) {
     case 'GET':
-    const artist = Artist.findOne({id:artist_id},{_id:0})
-    try {
     
+    try {
+      const artist = Artist.findOne({id:artist_id},{_id:0})    
         if (!artist){
             return res.status(404).json('artista no encontrado')
         }

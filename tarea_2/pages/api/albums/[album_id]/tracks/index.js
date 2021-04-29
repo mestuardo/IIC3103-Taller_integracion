@@ -33,7 +33,7 @@ export default async function userHandler(req, res) {
       if (!album){
         return res.status(404).json('álbum no encontrado')
       }
-      const tracks = await Track.find({album_id: album_id},{_id:0})
+      const tracks = await Track.find({album_id: album_id},{_id:0,id:0,album_id:0})
       // Get data from your database
       res.status(200).json(tracks)
     } catch (error) {
@@ -54,7 +54,7 @@ export default async function userHandler(req, res) {
       const buff  = Buffer.from(req.body.name, 'utf-8')
       const IDbase64 = buff.toString('base64').substring(0,22);
       try {
-        const album = await Album.findOne({id: album_id},{_id:0})
+  
         const track = await Track.create(
           {id: IDbase64,
           album_id: album_id,
@@ -68,11 +68,11 @@ export default async function userHandler(req, res) {
         },async function(err,obj){
           if (err){
           if (err.name === 'MongoError' && err.code === 11000){
-            const tra = await Track.findOne({id:IDbase64},{_id:0})
+            const tra = await Track.findOne({id:IDbase64},{_id:0,id:0,album_id:0})
             return res.status(409).json(tra)}
           return res.status(400).json('input inválido')
           }
-          const picked_obj = (({ id,album_id,name,duration,times_played,artist,album,self }) => ({ id,album_id,name,duration,times_played,artist,album,self }))(obj);
+          const picked_obj = (({ name,duration,times_played,artist,album,self }) => ({ name,duration,times_played,artist,album,self }))(obj);
           return res.status(201).json(picked_obj)
         }
         

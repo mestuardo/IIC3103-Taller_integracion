@@ -30,7 +30,7 @@ export default async function userHandler(req, res) {
       if (!artist){
         return res.status(404).json('artista no encontrado')
       }
-      const albums = await Album.find({artist_id: artist_id},{_id:0})
+      const albums = await Album.find({artist_id: artist_id},{_id:0,id:0,artist_id:0})
       // Get data from your database
       res.status(200).json(albums)
     } catch (error) {
@@ -63,11 +63,11 @@ export default async function userHandler(req, res) {
         },async function(err,obj){
           if (err){
           if (err.name === 'MongoError' && err.code === 11000){
-            const alb = await Album.find({artist_id: artist_id},{_id:0})
+            const alb = await Album.find({artist_id: artist_id},{_id:0,id:0,artist_id:0})
             return res.status(409).json(alb)}
           return res.status(400).json('input inválido')
           }
-          const picked_obj = (({ id,artist_id,name,genre,artist,tracks,self }) => ({ id,artist_id,name,genre,artist,tracks,self }))(obj);
+          const picked_obj = (({ name,genre,artist,tracks,self }) => ({ name,genre,artist,tracks,self }))(obj);
           return res.status(201).json(picked_obj)
         }
         

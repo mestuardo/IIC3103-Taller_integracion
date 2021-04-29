@@ -24,7 +24,7 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
-        const artists = await Artist.find({},{_id:0}) /* find all the data in our database */
+        const artists = await Artist.find({},{_id:0,id:0}) /* find all the data in our database */
         res.status(200).json(artists)
       } catch (error) {
         res.status(400).json(error)
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
         },async function(err,obj){
           if (err){
           if (err.name === 'MongoError' && err.code === 11000){
-            const art = await Artist.findOne({id:IDbase64},{_id:0})
+            const art = await Artist.findOne({id:IDbase64},{_id:0,id:0})
             return res.status(409).json(art)}
           return res.status(400).json('input inválido')
           }
