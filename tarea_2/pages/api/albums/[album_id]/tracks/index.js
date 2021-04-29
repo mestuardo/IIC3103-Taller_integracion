@@ -48,6 +48,9 @@ export default async function userHandler(req, res) {
       if (req.body.name==undefined){
         return res.status(400).json('input inválido')
       }
+      if (req.body.duration==undefined){
+        return res.status(400).json('input inválido')
+      }
       const buff  = Buffer.from(req.body.name, 'utf-8')
       const IDbase64 = buff.toString('base64').substring(0,22);
       try {
@@ -62,17 +65,20 @@ export default async function userHandler(req, res) {
           album: (req.connection && req.connection.encrypted ? 'https' : 'http')+ '://'+ req.headers.host +'/api/albums/' + album_id ,
           self: (req.connection && req.connection.encrypted ? 'https' : 'http')+ '://'+ req.headers.host +'/api/tracks/' + IDbase64  
         
+        },async function(err,obj){
+          if (err){
+          if (err.name === 'MongoError' && err.code === 11000){
+            const tra = await Track.findOne({id:IDbase64},{_id:0})
+            return res.status(409).json(tra)}
+          return res.status(400).json('input inválido')
+          }
+          const picked_obj = (({ id,album_id,name,duration,times_played,artist,album,self }) => ({ id,album_id,name,duration,times_played,artist,album,self }))(obj);
+          return res.status(201).json(picked_obj)
         }
         
         ) /* create a new model in the database */
-        res.status(201).json(track.slice(1,artist.length-1))
       } catch (error) {
-        if (error.name === 'MongoError' && error.code === 11000){
-          const track = await Track.findOne({album_id: album_id},{_id:0})
-          return res.status(409).json(track)
-
-        }
-        res.status(400).json('input inválido')
+        res.status(400).json(error)
 
       }
       break

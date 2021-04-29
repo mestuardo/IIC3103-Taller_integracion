@@ -45,10 +45,13 @@ export default async function userHandler(req, res) {
       if (req.body.name==undefined){
         return res.status(400).json('input inválido')
       }
+      if (req.body.genre==undefined){
+        return res.status(400).json('input inválido')
+      }
       const buff  = Buffer.from(req.body.name, 'utf-8')
       const IDbase64 = buff.toString('base64').substring(0,22);
       try {
-        const album = await Album.create(
+         await Album.create(
           {id: IDbase64,
         artist_id: artist_id,
           name: req.body.name,
@@ -57,17 +60,21 @@ export default async function userHandler(req, res) {
           tracks: (req.connection && req.connection.encrypted ? 'https' : 'http')+ '://'+ req.headers.host +'/api/albums/' + IDbase64 +'/tracks' ,
           self: (req.connection && req.connection.encrypted ? 'https' : 'http')+ '://'+ req.headers.host +'/api/albums/' + IDbase64  
         
+        },async function(err,obj){
+          if (err){
+          if (err.name === 'MongoError' && err.code === 11000){
+            const alb = await Album.find({artist_id: artist_id},{_id:0})
+            return res.status(409).json(alb)}
+          return res.status(400).json('input inválido')
+          }
+          const picked_obj = (({ id,artist_id,name,genre,artist,tracks,self }) => ({ id,artist_id,name,genre,artist,tracks,self }))(obj);
+          return res.status(201).json(picked_obj)
         }
         
         ) /* create a new model in the database */
-        res.status(201).json(album.slice(1,artist.length-1))
-      } catch (error) {
-        if (error.name === 'MongoError' && error.code === 11000){
-          const album = await Album.find({artist_id: artist_id},{_id:0})
-          return res.status(409).json(album)
 
-        }
-        res.status(400).json('input inválido')
+      } catch (error) {
+        res.status(400).json('error')
         
       }
       break

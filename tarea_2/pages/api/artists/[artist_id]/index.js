@@ -66,7 +66,7 @@ export default async function userHandler(req, res) {
         }
         }
       
-        res.status(204).json('artista eliminado')
+        return res.status(204).send()
 
         
 

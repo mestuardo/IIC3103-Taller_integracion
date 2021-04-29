@@ -55,7 +55,7 @@ export default async function userHandler(req, res) {
       if (tracks.length>0){
       await Track.deleteMany({album_id:album_id})
       }
-      return res.status(204).json('álbum eliminado')
+      return res.status(204).send()
 
       break
     default:

@@ -47,7 +47,7 @@ export default async function userHandler(req, res) {
 
       }
       await Track.deleteOne({id:track_id})
-      return res.status(204).json('canción eliminada')
+      return res.status(204).send()
       
 
       break
