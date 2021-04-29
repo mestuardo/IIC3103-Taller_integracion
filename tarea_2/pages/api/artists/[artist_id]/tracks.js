@@ -29,7 +29,7 @@ export default async function userHandler(req, res) {
     case 'GET':
     
     try {
-      const artist = Artist.findOne({id:artist_id},{_id:0})    
+      const artist = await Artist.findOne({id:artist_id},{_id:0})    
         if (!artist){
             return res.status(404).json('artista no encontrado')
         }

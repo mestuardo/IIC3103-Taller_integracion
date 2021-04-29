@@ -55,7 +55,7 @@ export default async function handler(req, res) {
             return res.status(409).json(art)}
           return res.status(400).json('input inválido')
           }
-          const picked_obj = (({ id,name,albums,tracks,self }) => ({ id,name,albums,tracks,self }))(obj);
+          const picked_obj = (({ name,albums,tracks,self }) => ({ name,albums,tracks,self }))(obj);
           return res.status(201).json(picked_obj)
         }
         

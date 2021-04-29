@@ -63,7 +63,7 @@ export default async function userHandler(req, res) {
         },async function(err,obj){
           if (err){
           if (err.name === 'MongoError' && err.code === 11000){
-            const alb = await Album.find({artist_id: artist_id},{_id:0,id:0,artist_id:0})
+            const alb = await Album.findOne({artist_id: artist_id},{_id:0,id:0,artist_id:0})
             return res.status(409).json(alb)}
           return res.status(400).json('input inválido')
           }
