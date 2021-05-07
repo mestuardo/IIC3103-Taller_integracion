@@ -1,5 +1,5 @@
 import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import Autocomplete from '@material-ui/core/Autocomplete';
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import styles from '../styles/Home.module.css'
@@ -153,6 +153,7 @@ export default function Layout({children}) {
           {...params}
           label="Buscar personaje"
           placeholder='Escribe un nombre...'
+          variant='standard'
           InputProps={{
             ...params.InputProps,
             endAdornment: (
