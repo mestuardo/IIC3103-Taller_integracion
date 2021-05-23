@@ -72,7 +72,12 @@ export default function Map({positions, flights}){
         angle(positions[flightName][0],positions[flightName][1],flights.find((f)=>f.code==flightName).destination[0],flights.find((f)=>f.code==flightName).destination[1])
       : 0}
       rotationOrigin="center"
-    />) }
+    >      <Popup>
+    {flightName}
+  </Popup>
+  </RotatedMarker>
+  
+  ) }
   
   {flights.map((flight,i)=> <React.Fragment key={flight.code}>
   <Polyline pathOptions={getColor(i)} positions={[flight.origin,flight.destination]} dashArray='10 20' />
