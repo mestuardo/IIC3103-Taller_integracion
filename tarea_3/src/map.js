@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, Marker, Popup, useMap, Polyline, Circle } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, useMap, Polyline, Circle, Tooltip } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css';
 import {icon} from 'leaflet'
 import React from 'react'
@@ -72,9 +72,9 @@ export default function Map({positions, flights}){
         angle(positions[flightName][0],positions[flightName][1],flights.find((f)=>f.code==flightName).destination[0],flights.find((f)=>f.code==flightName).destination[1])
       : 0}
       rotationOrigin="center"
-    >      <Popup>
+    >      <Tooltip direction="bottom" offset={[0, 20]} opacity={1} permanent>
     {flightName}
-  </Popup>
+  </Tooltip>
   </RotatedMarker>
   
   ) }

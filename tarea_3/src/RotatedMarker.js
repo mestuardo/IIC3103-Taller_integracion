@@ -20,7 +20,7 @@ const RotatedMarker = forwardRef(({ children, ...props }, forwardRef) => {
     if (marker) {
       marker.setRotationAngle(rotationAngle);
       marker.setRotationOrigin(rotationOrigin);
-      marker.openPopup()
+      // marker.openPopup()
     }
   }, [rotationAngle, rotationOrigin]);
 
